@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}Detail View{% endblock %}
+
+{% block body %}
+    {{ object.title}}
+    {% if object.image %}
+        <img src="{{ object.image.url }}" style="width: 50%; height: auto; display: block; margin-left: auto; margin-right: auto;" alt="Detail Image">
+        <button onclick="history.back()" style="display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; cursor: pointer;">Go Back</button>
+    {% endif %}
+{% endblock %}

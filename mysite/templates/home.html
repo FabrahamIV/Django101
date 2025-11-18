@@ -1,11 +1,20 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 
 {% block title %}Home Page{% endblock %}
 
 {% block body %}
     {% for post in posts %}
-        <h1>{{ post.title }}</h1>
-        <h2>{{ post.content }}</h2>
-        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        <h1>{{post.title}}</h1>
+        <p>{{post.content}}</p>
+        {% if post.image %}
+            {% thumbnail post.image "200x200" crop="center" as im %}
+                <a href="{% url 'feed:detail' post.id 'faisal' %}" style='display: inline-block;''>
+                    <img src="{{ im.url }}" alt="{{ post.title }}" width="{{ im.width }}" height="{{ im.height }}">
+                </a>
+                <!-- <a href="/detail/{{post.id}}/">See Details</a> -->
+            {% endthumbnail %}
+        {% endif %}
+        <hr
     {% endfor %}    
 {% endblock %}
