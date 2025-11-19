@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView, FormView
+from django.contrib import messages
 from .models import Post
 from .forms import PostForm
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 # Create your views here.
 class HomePageView(TemplateView):
@@ -25,11 +22,15 @@ class AddPostView(FormView):
     template_name = "post_form.html"
     success_url = "/"
 
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+    
     def form_valid(self, form):
         new_post = Post.objects.create(
             title=form.cleaned_data['title'],
             description=form.cleaned_data['description'],
             image=form.cleaned_data['image']
         )
+        messages.success(self.request, "Post added successfully!")
         return super().form_valid(form)
-        logger.info(f"Form is valid")

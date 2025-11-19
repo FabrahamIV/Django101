@@ -1,22 +1,19 @@
 {% extends "base.html" %}
-{% load thumbnail %}
 
 {% block title %}Home Page{% endblock %}
 
 {% block body %}
-    <button class="btn btn-primary" onclick="location.href='{% url 'feed:form' %}'" style='margin: 10px;'>Post Image</button>
-    <hr>
-    {% for post in posts %}
-        <h1>{{post.title}}</h1>
-        <p>{{post.description}}</p>
-        {% if post.image %}
-            {% thumbnail post.image "200x200" crop="center" as im %}
-                <a href="{% url 'feed:detail' post.id %}" style='display: inline-block;''>
-                    <img src="{{ im.url }}" alt="{{ post.title }}" width="{{ im.width }}" height="{{ im.height }}">
-                </a>
-                <!-- <a href="/detail/{{post.id}}/">See Details</a> -->
-            {% endthumbnail %}
-        {% endif %}
-        <hr>
-    {% endfor %} 
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4 col-sm-6 mb-4"> 
+            {% if post.image %}
+                {% include './includes/cards.html' %}
+            {% endif %}
+        </div>
+        {% empty %}
+            <h3 class="text-center">Welcome!</h3>
+            <p>Let's share your image</p>
+            <a href="{% url 'feed:form' %}" class="btn btn-success">Upload Image</a>
+        {% endfor %}
+    </div>
 {% endblock %}

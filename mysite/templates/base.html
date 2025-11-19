@@ -7,7 +7,18 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    {% block body %}
-    {% endblock %}
+    
+    {% include './includes/navbar.html' %}
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="bg-{% if message.tags %}{{ message.tags }}{% else %}primary{% endif %} bg-primary.bg-gradient text-center text-white py-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="container">{% block body %}{% endblock %}</div>
 </body>
 </html>
